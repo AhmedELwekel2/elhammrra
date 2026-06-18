@@ -1,0 +1,11 @@
+2026-06-18 13:56:51,580 - botocore.credentials - INFO - Found credentials in environment variables.
+2026-06-18 13:56:51,974 - botocore.tokens - INFO - Found token in environment variables.
+2026-06-18 13:56:51,995 - botocore.tokens - INFO - Found token in environment variables.
+2026-06-18 13:56:52,093 - telegram_bot_hajj - INFO - \u2705 AWS Bedrock client initialized successfully
+2026-06-18 13:56:52,195 - telegram_bot_hajj - INFO -    Region: us-east-1
+2026-06-18 13:56:52,197 - telegram_bot_hajj - INFO -    Inference Profile: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+2026-06-18 13:56:52,338 - telegram_bot_hajj - INFO -    Standard timeout: 60s, Long operations timeout: 600s
+INFO:     Started server process [16312]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8010 (Press CTRL+C to quit)

@@ -1,0 +1,6 @@
+[gateway] listening on :4000 (auth DISABLED)
+[db] connected and synced
+GET /api/health 200 255 - 50.429 ms
+GET /api/health 200 255 - 16.424 ms
+GET /api/health 200 255 - 62.929 ms
+GET /api/health 200 314 - 16.719 ms

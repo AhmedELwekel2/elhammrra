@@ -1,0 +1,7 @@
+[agent-api] agent compiled and ready ✓
+INFO:     127.0.0.1:59469 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59473 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59536 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59538 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59802 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59821 - "GET /health HTTP/1.1" 200 OK

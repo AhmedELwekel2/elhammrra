@@ -1,0 +1,95 @@
+# El Hamra Quality Platform — AI tools stack.
+#
+# Brings up Postgres + the three Python services + the Express gateway. The
+# static platform front-end (منصة الجودة …) is served separately (any static
+# host) and points at the gateway via js/config.js -> API_CONFIG.toolsBaseUrl.
+#
+# Prerequisites:
+#   * Create the .env files from each service's .env.example first
+#     (server/.env, "Chat Bot"/.env; the news-agent and rag .env already exist).
+#   * Put the Firebase service-account JSON at server/secrets/firebase-service-account.json.
+#   * Build the CRAG agent + chatbot indexes once (see README "Ingestion").
+#
+# Run:  docker compose up --build
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: elhamra_tools
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  news-agent:
+    build:
+      context: "./elhajjjjjjjjjjjjjjjjjj_boooooooooooot-main"
+    env_file:
+      - "./elhajjjjjjjjjjjjjjjjjj_boooooooooooot-main/quality_bot/.env"
+    ports:
+      - "8010:8010"
+    restart: unless-stopped
+
+  rag:
+    image: python:3.11-slim
+    working_dir: /app
+    env_file:
+      - "./hAJJJJ/src/.env"
+    volumes:
+      - "./hAJJJJ:/app"
+    command: >
+      sh -c "pip install --no-cache-dir -r requirements.txt &&
+             python -m uvicorn src.agent.api:app --host 0.0.0.0 --port 8020"
+    ports:
+      - "8020:8020"
+    restart: unless-stopped
+
+  chatbot:
+    build:
+      context: "./Chat Bot"
+    env_file:
+      - path: "./Chat Bot/.env"
+        required: false
+    environment:
+      PORT: "8030"
+      SOPS_CHROMA_DIR: "/app/data/chroma"
+    volumes:
+      - "./Chat Bot/data:/app/data"
+    ports:
+      - "8030:8030"
+    restart: unless-stopped
+
+  express:
+    build:
+      context: "./server"
+    env_file:
+      - path: "./server/.env"
+        required: false
+    environment:
+      PORT: "4000"
+      PUBLIC_BASE_URL: "http://127.0.0.1:4000"
+      DATABASE_URL: "postgres://postgres:postgres@postgres:5432/elhamra_tools"
+      NEWS_AGENT_URL: "http://news-agent:8010"
+      RAG_URL: "http://rag:8020"
+      RAG_CONTRACT: "chat"
+      CHATBOT_URL: "http://chatbot:8030"
+      GOOGLE_APPLICATION_CREDENTIALS: "/app/secrets/firebase-service-account.json"
+    volumes:
+      - "./server/secrets:/app/secrets:ro"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
